@@ -95,7 +95,16 @@ val translationCount = papagoTextView.getTranslationCountForCurrentText()
 - 영어 (en)
 - 일본어 (ja)
 - 중국어 (zh-CN, zh-TW)
-- 기타 Papago API에서 지원하는 언어
+- 베트남어 (vi)
+- 태국어 (th)
+- 인도네시아어 (id)
+- 프랑스어 (fr)
+- 스페인어 (es)
+- 러시아어 (ru)
+- 독일어 (de)
+- 이탈리아어 (it)
+
+기타 [Papago API에서 지원하는 언어](https://api.ncloud-docs.com/docs/ai-naver-papagonmt-translation)는 공식 문서를 참조하세요.
 
 ## 라이선스
 
