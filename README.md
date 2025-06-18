@@ -1,6 +1,6 @@
 # Papago Translate Android Library
 
-안드로이드 앱에서 Papago 번역 API를 쉽게 사용할 수 있는 라이브러리입니다.
+안드로이드 앱에서 Papago 번역 API를 쉽게 사용할 수 있는 라이브러리입니다. 이 라이브러리는 **Cursor IDE**를 통해 개발되었으며, Git 버전 관리와 Maven 배포 과정도 Cursor의 AI 기능을 활용하여 진행되었습니다.
 
 ## 주요 기능
 
@@ -9,6 +9,15 @@
 - 🎯 커스텀 TextView 컴포넌트
 - 🔄 자동 언어 감지 및 번역
 - ⚡ 코루틴 기반 비동기 처리
+- 🚀 Cursor IDE를 통한 AI 기반 개발 및 배포
+
+## 개발 환경
+
+- **IDE**: Cursor (AI 기반 코드 에디터)
+- **언어**: Kotlin
+- **플랫폼**: Android
+- **버전 관리**: Git
+- **배포**: Maven Central / JitPack
 
 ## 설치 방법
 
@@ -113,6 +122,7 @@ val translationCount = papagoTextView.getTranslationCountForCurrentText()
 - Papago 번역 API 연동
 - 자동 캐싱 기능
 - 커스텀 TextView 컴포넌트
+- Cursor IDE를 통한 AI 기반 개발 및 배포
 
 ## 라이선스
 
