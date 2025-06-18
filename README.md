@@ -1,15 +1,15 @@
-# Papago Translate Android Library
+# PapagoTextView - Auto Translate TextView
 
-안드로이드 앱에서 Papago 번역 API를 쉽게 사용할 수 있는 라이브러리입니다. 이 라이브러리는 **Cursor IDE**를 통해 개발되었으며, Git 버전 관리와 Maven 배포 과정도 Cursor의 AI 기능을 활용하여 진행되었습니다.
+안드로이드 앱에서 TextView를 대체하여 **자동 번역 기능**을 제공하는 CustomView 라이브러리입니다. 이 라이브러리는 **Cursor IDE**를 통해 개발되었으며, Git 버전 관리와 Maven 배포 과정도 Cursor의 AI 기능을 활용하여 진행되었습니다.
 
 ## 주요 기능
 
-- 🌐 Papago 번역 API 연동
-- 💾 번역 결과 자동 캐싱
-- 🎯 커스텀 TextView 컴포넌트
-- 🔄 자동 언어 감지 및 번역
-- ⚡ 코루틴 기반 비동기 처리
-- 🚀 Cursor IDE를 통한 AI 기반 개발 및 배포
+- 🎯 **TextView 대체**: 기존 TextView를 완전히 대체하는 CustomView
+- 🌐 **자동 번역**: Papago 번역 API를 통한 실시간 자동 번역
+- 💾 **번역 결과 캐싱**: 중복 번역 방지를 위한 자동 캐싱
+- 🔄 **언어 자동 감지**: 입력 텍스트의 언어를 자동으로 감지
+- ⚡ **코루틴 기반**: 비동기 처리로 UI 블로킹 방지
+- 🚀 **Cursor IDE**: AI 기반 개발 및 배포
 
 ## 개발 환경
 
@@ -52,9 +52,10 @@ PapagoTextView.initialize(
 )
 ```
 
-### 2. XML에서 사용
+### 2. XML에서 TextView 대체
 
 ```xml
+<!-- 기존 TextView 대신 PapagoTextView 사용 -->
 <com.lasse.language.util.translate.PapagoTextView
     android:id="@+id/translateTextView"
     android:layout_width="match_parent"
@@ -119,9 +120,9 @@ val translationCount = papagoTextView.getTranslationCountForCurrentText()
 
 ### 1.0.0
 - 초기 릴리즈
+- TextView 대체 CustomView 구현
 - Papago 번역 API 연동
 - 자동 캐싱 기능
-- 커스텀 TextView 컴포넌트
 - Cursor IDE를 통한 AI 기반 개발 및 배포
 
 ## 라이선스
