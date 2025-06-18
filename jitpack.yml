@@ -3,6 +3,6 @@ jdk:
 
 before_install:
   - ./gradlew wrapper
-
+ 
 script:
   - ./gradlew build publishToMavenLocal 

@@ -10,6 +10,7 @@
 - 🔄 **언어 자동 감지**: 입력 텍스트의 언어를 자동으로 감지
 - ⚡ **코루틴 기반**: 비동기 처리로 UI 블로킹 방지
 - 🚀 **Cursor IDE**: AI 기반 개발 및 배포
+- 📱 **XML 설정**: XML에서 직접 언어 및 번역 옵션 설정 가능
 
 ## 개발 환경
 
@@ -54,6 +55,7 @@ PapagoTextView.initialize(
 
 ### 2. XML에서 TextView 대체
 
+#### 기본 사용법
 ```xml
 <!-- 기존 TextView 대신 PapagoTextView 사용 -->
 <com.lasse.language.util.translate.PapagoTextView
@@ -63,6 +65,41 @@ PapagoTextView.initialize(
     android:text="안녕하세요"
     android:textSize="16sp" />
 ```
+
+#### 고급 설정 (언어 및 옵션 지정)
+```xml
+<com.lasse.language.util.translate.PapagoTextView
+    android:id="@+id/advancedTranslateTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Hello, how are you?"
+    android:textSize="16sp"
+    
+    <!-- 번역 모드 설정 -->
+    app:autoTranslateMode="true"
+    
+    <!-- 언어 설정 -->
+    app:sourceLanguage="en"
+    app:targetLanguage="ko"
+    
+    <!-- 번역 옵션 -->
+    app:translationDelay="1000"
+    app:useCache="true"
+    app:showOriginalOnError="true"
+    app:showToastOnComplete="false" />
+```
+
+#### 지원하는 XML 속성
+
+| 속성 | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `autoTranslateMode` | boolean | true | 자동 번역 모드 활성화/비활성화 |
+| `sourceLanguage` | string | "ko" | 원본 언어 코드 (ko, en, ja, zh-CN, zh-TW, vi, th, id, fr, es, ru, de, it) |
+| `targetLanguage` | string | "en" | 번역할 언어 코드 |
+| `translationDelay` | integer | 0 | 번역 시작 전 지연 시간 (밀리초) |
+| `useCache` | boolean | true | 번역 결과 캐싱 사용 여부 |
+| `showOriginalOnError` | boolean | true | 번역 실패 시 원본 텍스트 표시 여부 |
+| `showToastOnComplete` | boolean | true | 번역 완료 시 토스트 메시지 표시 여부 |
 
 ### 3. 프로그래밍 방식으로 사용
 
@@ -123,6 +160,7 @@ val translationCount = papagoTextView.getTranslationCountForCurrentText()
 - TextView 대체 CustomView 구현
 - Papago 번역 API 연동
 - 자동 캐싱 기능
+- XML 속성을 통한 언어 및 옵션 설정 지원
 - Cursor IDE를 통한 AI 기반 개발 및 배포
 
 ## 라이선스

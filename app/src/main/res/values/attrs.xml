@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PapagoTextView">
+        <!-- 자동 번역 모드 설정 -->
+        <attr name="autoTranslateMode" format="boolean" />
+        
+        <!-- 소스 언어 설정 -->
+        <attr name="sourceLanguage" format="string" />
+        
+        <!-- 타겟 언어 설정 -->
+        <attr name="targetLanguage" format="string" />
+        
+        <!-- 번역 지연 시간 (밀리초) -->
+        <attr name="translationDelay" format="integer" />
+        
+        <!-- 캐시 사용 여부 -->
+        <attr name="useCache" format="boolean" />
+        
+        <!-- 번역 실패 시 원본 텍스트 표시 여부 -->
+        <attr name="showOriginalOnError" format="boolean" />
+        
+        <!-- 번역 완료 시 토스트 메시지 표시 여부 -->
+        <attr name="showToastOnComplete" format="boolean" />
+    </declare-styleable>
+</resources> 

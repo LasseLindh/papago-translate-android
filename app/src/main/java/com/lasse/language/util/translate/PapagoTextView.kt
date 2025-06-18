@@ -33,6 +33,12 @@ class PapagoTextView @JvmOverloads constructor(
     private var isCacheReady = false
     private var isAutoTranslateMode = true // 자동번역 모드 (기본값 true)
     private var systemLanguage: String = "ko" // 시스템 언어
+    
+    // XML 속성 관련 변수들
+    private var useCache: Boolean = true
+    private var showOriginalOnError: Boolean = true
+    private var showToastOnComplete: Boolean = true
+    private var translationDelay: Int = 0
 
     companion object {
         private var clientId: String? = null
@@ -67,15 +73,72 @@ class PapagoTextView @JvmOverloads constructor(
     init {
         Log.d(TAG, "PapagoTextView constructor started")
         try {
+            // XML 속성 읽기
+            readAttributes(attrs)
+            
             initializeCache()
             initializeSystemLanguage()
-            // 전역 설정에 따라 자동번역 모드 설정
-            isAutoTranslateMode = defaultAutoTranslateMode
+            // 전역 설정에 따라 자동번역 모드 설정 (XML에서 설정하지 않은 경우)
+            if (attrs == null) {
+                isAutoTranslateMode = defaultAutoTranslateMode
+            }
             Log.d(TAG, "Auto-translate mode set to: $isAutoTranslateMode")
         } catch (e: Exception) {
             Log.e(TAG, "Initialization failed", e)
         }
         Log.d(TAG, "PapagoTextView constructor completed")
+    }
+
+    private fun readAttributes(attrs: AttributeSet?) {
+        if (attrs == null) return
+        
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.PapagoTextView)
+        try {
+            // 자동 번역 모드 설정
+            if (typedArray.hasValue(R.styleable.PapagoTextView_autoTranslateMode)) {
+                isAutoTranslateMode = typedArray.getBoolean(R.styleable.PapagoTextView_autoTranslateMode, true)
+                Log.d(TAG, "XML: autoTranslateMode = $isAutoTranslateMode")
+            }
+            
+            // 소스 언어 설정
+            if (typedArray.hasValue(R.styleable.PapagoTextView_sourceLanguage)) {
+                sourceLanguage = typedArray.getString(R.styleable.PapagoTextView_sourceLanguage) ?: "ko"
+                Log.d(TAG, "XML: sourceLanguage = $sourceLanguage")
+            }
+            
+            // 타겟 언어 설정
+            if (typedArray.hasValue(R.styleable.PapagoTextView_targetLanguage)) {
+                targetLanguage = typedArray.getString(R.styleable.PapagoTextView_targetLanguage) ?: "en"
+                Log.d(TAG, "XML: targetLanguage = $targetLanguage")
+            }
+            
+            // 번역 지연 시간 설정
+            if (typedArray.hasValue(R.styleable.PapagoTextView_translationDelay)) {
+                translationDelay = typedArray.getInteger(R.styleable.PapagoTextView_translationDelay, 0)
+                Log.d(TAG, "XML: translationDelay = $translationDelay")
+            }
+            
+            // 캐시 사용 여부 설정
+            if (typedArray.hasValue(R.styleable.PapagoTextView_useCache)) {
+                useCache = typedArray.getBoolean(R.styleable.PapagoTextView_useCache, true)
+                Log.d(TAG, "XML: useCache = $useCache")
+            }
+            
+            // 번역 실패 시 원본 텍스트 표시 여부
+            if (typedArray.hasValue(R.styleable.PapagoTextView_showOriginalOnError)) {
+                showOriginalOnError = typedArray.getBoolean(R.styleable.PapagoTextView_showOriginalOnError, true)
+                Log.d(TAG, "XML: showOriginalOnError = $showOriginalOnError")
+            }
+            
+            // 번역 완료 시 토스트 메시지 표시 여부
+            if (typedArray.hasValue(R.styleable.PapagoTextView_showToastOnComplete)) {
+                showToastOnComplete = typedArray.getBoolean(R.styleable.PapagoTextView_showToastOnComplete, true)
+                Log.d(TAG, "XML: showToastOnComplete = $showToastOnComplete")
+            }
+            
+        } finally {
+            typedArray.recycle()
+        }
     }
 
     private fun initializeSystemLanguage() {
