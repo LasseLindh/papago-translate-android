@@ -11,6 +11,7 @@
 - ⚡ **코루틴 기반**: 비동기 처리로 UI 블로킹 방지
 - 🚀 **Cursor IDE**: AI 기반 개발 및 배포
 - 📱 **XML 설정**: XML에서 직접 언어 및 번역 옵션 설정 가능
+- 🔧 **다양한 초기화 방법**: 소스코드 또는 AndroidManifest에서 설정 가능
 
 ## 개발 환경
 
@@ -26,7 +27,7 @@
 
 ```gradle
 dependencies {
-    implementation 'com.lasse.language:papago-translate:1.0.0'
+    implementation 'com.lasse.language:papago-translate:1.1.0'
 }
 ```
 
@@ -36,24 +37,114 @@ dependencies {
 <dependency>
     <groupId>com.lasse.language</groupId>
     <artifactId>papago-translate</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
-## 사용법
+## 초기화 방법
 
-### 1. 초기화
+PapagoTextView는 두 가지 방법으로 초기화할 수 있습니다:
 
-```kotlin
-// Application 클래스나 MainActivity에서 초기화
-PapagoTextView.initialize(
-    clientId = "YOUR_PAPAGO_CLIENT_ID",
-    clientSecret = "YOUR_PAPAGO_CLIENT_SECRET",
-    autoTranslateMode = true // 자동 번역 모드 (기본값: true)
-)
+### 방법 1: AndroidManifest를 통한 초기화 (권장)
+
+소스코드를 전혀 건드리지 않고 AndroidManifest에서 설정할 수 있습니다.
+
+#### 1. AndroidManifest.xml 설정
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".TranslateApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.YourApp"
+        tools:targetApi="31">
+        
+        <!-- Papago API 설정 -->
+        <meta-data
+            android:name="papago_client_id"
+            android:value="YOUR_PAPAGO_CLIENT_ID" />
+        <meta-data
+            android:name="papago_client_secret"
+            android:value="YOUR_PAPAGO_CLIENT_SECRET" />
+        <meta-data
+            android:name="papago_auto_translate_mode"
+            android:value="true" />
+            
+    </application>
+
+</manifest>
 ```
 
-### 2. XML에서 TextView 대체
+#### 2. XML에서 바로 사용
+
+```xml
+<!-- 별도의 초기화 코드 없이 바로 사용 가능 -->
+<com.lasse.language.util.translate.PapagoTextView
+    android:id="@+id/translateTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="안녕하세요"
+    android:textSize="16sp" />
+```
+
+**장점:**
+- ✅ 소스코드 수정 불필요
+- ✅ 앱 시작 시 자동 초기화
+- ✅ 설정 변경 시 AndroidManifest만 수정
+- ✅ 기존 코드와 완전히 분리
+
+### 방법 2: 소스코드를 통한 초기화
+
+프로그래밍 방식으로 직접 초기화할 수 있습니다.
+
+#### 1. Application 클래스에서 초기화
+
+```kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        
+        // PapagoTextView 초기화
+        PapagoTextView.initialize(
+            clientId = "YOUR_PAPAGO_CLIENT_ID",
+            clientSecret = "YOUR_PAPAGO_CLIENT_SECRET",
+            autoTranslateMode = true // 자동 번역 모드 (기본값: true)
+        )
+    }
+}
+```
+
+#### 2. MainActivity에서 초기화
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        // PapagoTextView 초기화
+        PapagoTextView.initialize(
+            clientId = "YOUR_PAPAGO_CLIENT_ID",
+            clientSecret = "YOUR_PAPAGO_CLIENT_SECRET",
+            autoTranslateMode = true
+        )
+    }
+}
+```
+
+**장점:**
+- ✅ 런타임에 동적으로 설정 변경 가능
+- ✅ 조건부 초기화 가능
+- ✅ 더 세밀한 제어 가능
+
+## 사용법
+
+### XML에서 TextView 대체
 
 #### 기본 사용법
 ```xml
@@ -101,7 +192,7 @@ PapagoTextView.initialize(
 | `showOriginalOnError` | boolean | true | 번역 실패 시 원본 텍스트 표시 여부 |
 | `showToastOnComplete` | boolean | true | 번역 완료 시 토스트 메시지 표시 여부 |
 
-### 3. 프로그래밍 방식으로 사용
+### 프로그래밍 방식으로 사용
 
 ```kotlin
 val papagoTextView = findViewById<PapagoTextView>(R.id.translateTextView)
@@ -113,9 +204,17 @@ papagoTextView.setTargetLanguage("en")
 
 // 텍스트 설정 (자동 번역됨)
 papagoTextView.setText("안녕하세요")
+
+// 전역 자동번역 모드 설정 변경
+PapagoTextView.setGlobalAutoTranslateMode(false)
+
+// 초기화 상태 확인
+if (PapagoTextView.isInitialized()) {
+    // 초기화 완료된 상태
+}
 ```
 
-### 4. 캐시 관리
+### 캐시 관리
 
 ```kotlin
 // 캐시 정보 확인
@@ -154,6 +253,13 @@ val translationCount = papagoTextView.getTranslationCountForCurrentText()
 기타 [Papago API에서 지원하는 언어](https://api.ncloud-docs.com/docs/ai-naver-papagonmt-translation)는 공식 문서를 참조하세요.
 
 ## 변경 이력
+
+### 1.1.0
+- AndroidManifest를 통한 초기화 기능 추가
+- 소스코드 없이 AndroidManifest에서 API 키 설정 가능
+- TranslateApplication 클래스 추가
+- 두 가지 초기화 방법 지원 (AndroidManifest / 소스코드)
+- 초기화 방법별 장점 명시
 
 ### 1.0.0
 - 초기 릴리즈
